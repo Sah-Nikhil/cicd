@@ -38,7 +38,7 @@ export default function TodoApp() {
       <Card className="w-full max-w-md shadow-2xl border border-neutral-800 bg-neutral-900/95 backdrop-blur-lg">
         <CardHeader className="flex flex-col items-center gap-2 pb-2">
           <CardTitle className="text-3xl font-extrabold text-white tracking-tight">Todo App</CardTitle>
-          <span className="text-xs text-neutral-400 uppercase tracking-widest">Minimal. Modern. Monochrome.</span>
+          <span className="text-xs text-neutral-400 uppercase tracking-widest">Minimal. Modern. Monochrome. My GAWD</span>
         </CardHeader>
         <CardContent>
           <form
@@ -54,7 +54,7 @@ export default function TodoApp() {
               onChange={e => setInput(e.target.value)}
               className="flex-1 bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:border-white focus:ring-2 focus:ring-neutral-600/40 rounded-md shadow-sm"
             />
-            <Button type="submit" className="bg-white text-black font-semibold rounded-md shadow hover:bg-neutral-200 transition">Add</Button>
+            <Button type="submit" className="bg-white text-black font-semibold rounded-md shadow hover:bg-neutral-200 transition">SLAP THAT</Button>
           </form>
           <ul className="flex flex-col gap-2">
             {todos.length === 0 && (
