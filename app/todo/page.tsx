@@ -37,8 +37,8 @@ export default function TodoApp() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-neutral-950 p-4">
       <Card className="w-full max-w-md shadow-2xl border border-neutral-800 bg-neutral-900/95 backdrop-blur-lg">
         <CardHeader className="flex flex-col items-center gap-2 pb-2">
-          <CardTitle className="text-3xl font-extrabold text-white tracking-tight">Todo App</CardTitle>
-          <span className="text-xs text-neutral-400 uppercase tracking-widest">Minimal. Modern. Monochrome.</span>
+          <CardTitle className="text-3xl font-extrabold text-white tracking-tight">Todo App by </CardTitle>
+          <span className="text-xs text-neutral-400 uppercase tracking-widest">Minimal. Modern.</span>
         </CardHeader>
         <CardContent>
           <form
@@ -54,7 +54,7 @@ export default function TodoApp() {
               onChange={e => setInput(e.target.value)}
               className="flex-1 bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:border-white focus:ring-2 focus:ring-neutral-600/40 rounded-md shadow-sm"
             />
-            <Button type="submit" className="bg-white text-black font-semibold rounded-md shadow hover:bg-neutral-200 transition">Add</Button>
+            <Button type="submit" className="bg-white text-black font-semibold rounded-md shadow hover:bg-neutral-200 transition">SLAP THAT my G</Button>
           </form>
           <ul className="flex flex-col gap-2">
             {todos.length === 0 && (
@@ -65,13 +65,20 @@ export default function TodoApp() {
                 key={todo.id}
                 className={`flex items-center justify-between rounded-lg px-3 py-2 transition-all duration-200 border border-neutral-800 ${todo.completed ? 'bg-neutral-800/80' : 'bg-neutral-900/80 hover:bg-neutral-800/90'} shadow-sm`}
               >
-                <span
-                  className={`cursor-pointer select-none text-base font-medium transition-all duration-200 ${todo.completed ? "line-through text-neutral-500" : "text-white hover:text-neutral-200"}`}
-                  onClick={() => toggleTodo(todo.id)}
-                  title={todo.completed ? 'Mark as incomplete' : 'Mark as complete'}
-                >
-                  {todo.text}
-                </span>
+                <div className="flex items-center gap-3 flex-1 min-w-0">
+                  <input
+                    type="checkbox"
+                    checked={todo.completed}
+                    onChange={() => toggleTodo(todo.id)}
+                    className="accent-white w-5 h-5 rounded border border-neutral-600 bg-neutral-900 focus:ring-2 focus:ring-white/40 transition"
+                    aria-label={todo.completed ? 'Mark as incomplete' : 'Mark as complete'}
+                  />
+                  <span
+                    className={`select-none text-base font-medium transition-all duration-200 truncate ${todo.completed ? "line-through text-neutral-500" : "text-white"}`}
+                  >
+                    {todo.text}
+                  </span>
+                </div>
                 <Button
                   variant="ghost"
                   size="icon"
