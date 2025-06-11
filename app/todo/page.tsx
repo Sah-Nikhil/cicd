@@ -54,7 +54,7 @@ export default function TodoApp() {
               onChange={e => setInput(e.target.value)}
               className="flex-1 bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:border-white focus:ring-2 focus:ring-neutral-600/40 rounded-md shadow-sm"
             />
-            <Button type="submit" className="bg-white text-black font-semibold rounded-md shadow hover:bg-neutral-200 transition">SLAP THAT</Button>
+            <Button type="submit" className="bg-white text-black font-semibold rounded-md shadow hover:bg-neutral-200 transition">SLAP THAT my G</Button>
           </form>
           <ul className="flex flex-col gap-2">
             {todos.length === 0 && (
