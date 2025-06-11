@@ -65,13 +65,20 @@ export default function TodoApp() {
                 key={todo.id}
                 className={`flex items-center justify-between rounded-lg px-3 py-2 transition-all duration-200 border border-neutral-800 ${todo.completed ? 'bg-neutral-800/80' : 'bg-neutral-900/80 hover:bg-neutral-800/90'} shadow-sm`}
               >
-                <span
-                  className={`cursor-pointer select-none text-base font-medium transition-all duration-200 ${todo.completed ? "line-through text-neutral-500" : "text-white hover:text-neutral-200"}`}
-                  onClick={() => toggleTodo(todo.id)}
-                  title={todo.completed ? 'Mark as incomplete' : 'Mark as complete'}
-                >
-                  {todo.text}
-                </span>
+                <div className="flex items-center gap-3 flex-1 min-w-0">
+                  <input
+                    type="checkbox"
+                    checked={todo.completed}
+                    onChange={() => toggleTodo(todo.id)}
+                    className="accent-white w-5 h-5 rounded border border-neutral-600 bg-neutral-900 focus:ring-2 focus:ring-white/40 transition"
+                    aria-label={todo.completed ? 'Mark as incomplete' : 'Mark as complete'}
+                  />
+                  <span
+                    className={`select-none text-base font-medium transition-all duration-200 truncate ${todo.completed ? "line-through text-neutral-500" : "text-white"}`}
+                  >
+                    {todo.text}
+                  </span>
+                </div>
                 <Button
                   variant="ghost"
                   size="icon"
