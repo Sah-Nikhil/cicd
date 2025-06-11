@@ -23,12 +23,6 @@ export default function TodoApp() {
     setInput("");
   };
 
-  const toggleTodo = (id: number) => {
-    setTodos(todos.map(todo =>
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    ));
-  };
-
   const removeTodo = (id: number) => {
     setTodos(todos.filter(todo => todo.id !== id));
   };
@@ -66,13 +60,6 @@ export default function TodoApp() {
                 className={`flex items-center justify-between rounded-lg px-3 py-2 transition-all duration-200 border border-neutral-800 ${todo.completed ? 'bg-neutral-800/80' : 'bg-neutral-900/80 hover:bg-neutral-800/90'} shadow-sm`}
               >
                 <div className="flex items-center gap-3 flex-1 min-w-0">
-                  <input
-                    type="checkbox"
-                    checked={todo.completed}
-                    onChange={() => toggleTodo(todo.id)}
-                    className="accent-white w-5 h-5 rounded border border-neutral-600 bg-neutral-900 focus:ring-2 focus:ring-white/40 transition"
-                    aria-label={todo.completed ? 'Mark as incomplete' : 'Mark as complete'}
-                  />
                   <span
                     className={`select-none text-base font-medium transition-all duration-200 truncate ${todo.completed ? "line-through text-neutral-500" : "text-white"}`}
                   >
