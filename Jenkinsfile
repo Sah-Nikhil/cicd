@@ -10,8 +10,7 @@ pipeline {
         stage('Prepare Workspace') {
             steps {
                 script {
-                    // Clean workspace
-                    sh 'rm -rf *'
+                    sh 'rm -rf *' // This line can be dangerous if not careful, consider 'git clean -fdx' instead
                     sh 'git config --global user.email "jenkins@example.com"'
                     sh 'git config --global user.name "Jenkins Automation"'
                 }
@@ -24,7 +23,11 @@ pipeline {
                     checkout scm: [
                         $class: 'GitSCM',
                         branches: [[name: 'main']],
-                        userRemoteConfigs: [[url: env.GIT_URL_1]],
+                        // --- IMPORTANT CHANGE HERE ---
+                        // Use your GitHub repository URL directly, and specify the credentialsId
+                        userRemoteConfigs: [[url: 'https://github.com/Sah-Nikhil/cicd.git', credentialsId: 'github-pat-for-ci']],
+                        // Make sure 'github-pat-for-ci' is the actual ID of your credential in Jenkins
+                        // --- END IMPORTANT CHANGE ---
                         extensions: [[$class: 'WipeWorkspace']]
                     ]
                 }
@@ -34,6 +37,8 @@ pipeline {
         stage('Checkout Feature Branch') {
             steps {
                 script {
+                    // This part should work after main is checked out correctly
+                    // No need to specify credentials here as we're operating within the same repo
                     sh "git fetch origin ${params.BRANCH_NAME}:${params.BRANCH_NAME}"
                     sh "git checkout ${params.BRANCH_NAME}"
                 }
@@ -44,19 +49,14 @@ pipeline {
             steps {
                 script {
                     try {
-                        // Try to merge main into the feature branch without committing
                         sh "git merge origin/main --no-commit --no-ff"
-                        // If merge succeeds without immediate conflicts, clean up and succeed
                         sh "git merge --abort"
                         currentBuild.result = 'SUCCESS'
                         echo "No conflicts detected with main."
                     } catch (Exception e) {
-                        // If merge fails, it's likely a conflict
-                        sh "git merge --abort" // Abort the merge attempt
-                        currentBuild.result = 'FAILURE' // Mark build as failure
+                        sh "git merge --abort"
+                        currentBuild.result = 'FAILURE'
                         echo "CONFLICTS DETECTED with main."
-                        // You might want to capture diffs here for AI analysis
-                        // For simplicity, we'll let n8n fetch diffs from GitHub
                     }
                 }
             }
