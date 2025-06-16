@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Todo {
   id: number;
@@ -59,31 +60,37 @@ export default function TodoApp() {
             {todos.length === 0 && (
               <li className="text-neutral-600 text-center italic">No todos yet. Add your first one!</li>
             )}
-            {todos.map(todo => (
-              <li
-                key={todo.id}
-                className={`flex items-center justify-between rounded-lg px-3 py-2 transition-all duration-200 border border-neutral-800 ${todo.completed ? 'bg-neutral-800/80' : 'bg-neutral-900/80 hover:bg-neutral-800/90'} shadow-sm`}
-              >
-                <div className="flex items-center gap-3 flex-1 min-w-0">
-                  <Link href={`/todo/${todo.id}`} className="flex-1 min-w-0">
-                    <span
-                      className={`select-none text-base font-medium transition-all duration-200 truncate ${todo.completed ? "line-through text-neutral-500" : "text-white"}`}
-                    >
-                      {todo.text}
-                    </span>
-                  </Link>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => removeTodo(todo.id)}
-                  aria-label="Delete todo"
-                  className="hover:bg-neutral-800 hover:text-white/70"
+            <AnimatePresence initial={false}>
+              {todos.map(todo => (
+                <motion.li
+                  key={todo.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, x: 40 }}
+                  transition={{ duration: 0.25 }}
+                  className={`flex items-center justify-between rounded-lg px-3 py-2 transition-all duration-200 border border-neutral-800 ${todo.completed ? 'bg-neutral-800/80' : 'bg-neutral-900/80 hover:bg-neutral-800/90'} shadow-sm`}
                 >
-                  <span className="text-lg">🗑️</span>
-                </Button>
-              </li>
-            ))}
+                  <div className="flex items-center gap-3 flex-1 min-w-0">
+                    <Link href={`/todo/${todo.id}`} className="flex-1 min-w-0">
+                      <span
+                        className={`select-none text-base font-medium transition-all duration-200 truncate ${todo.completed ? "line-through text-neutral-500" : "text-white"}`}
+                      >
+                        {todo.text}
+                      </span>
+                    </Link>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => removeTodo(todo.id)}
+                    aria-label="Delete todo"
+                    className="hover:bg-neutral-800 hover:text-white/70"
+                  >
+                    <span className="text-lg">🗑️</span>
+                  </Button>
+                </motion.li>
+              ))}
+            </AnimatePresence>
           </ul>
         </CardContent>
       </Card>
