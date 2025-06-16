@@ -4,7 +4,6 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 interface Todo {
   id: number;
@@ -31,9 +30,6 @@ export default function TodoApp() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-neutral-950 p-4">
-      <div className="absolute top-4 right-4">
-        <ThemeToggle />
-      </div>
       <Card className="w-full max-w-md shadow-2xl border border-neutral-800 bg-neutral-900/95 backdrop-blur-lg">
         <CardHeader className="flex flex-col items-center gap-2 pb-2">
           <CardTitle className="text-3xl font-extrabold text-white tracking-tight">Todo App by </CardTitle>
