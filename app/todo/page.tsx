@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import TodoItem from "@/components/todo/TodoItem";
 
 interface Todo {
   id: number;
@@ -26,12 +25,6 @@ export default function TodoApp() {
 
   const removeTodo = (id: number) => {
     setTodos(todos.filter(todo => todo.id !== id));
-  };
-
-  const toggleTodo = (id: number) => {
-    setTodos(todos.map(todo =>
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    ));
   };
 
   return (
@@ -62,12 +55,27 @@ export default function TodoApp() {
               <li className="text-neutral-600 text-center italic">No todos yet. Add your first one!</li>
             )}
             {todos.map(todo => (
-              <TodoItem
+              <li
                 key={todo.id}
-                todo={todo}
-                onToggle={toggleTodo}
-                onRemove={removeTodo}
-              />
+                className={`flex items-center justify-between rounded-lg px-3 py-2 transition-all duration-200 border border-neutral-800 ${todo.completed ? 'bg-neutral-800/80' : 'bg-neutral-900/80 hover:bg-neutral-800/90'} shadow-sm`}
+              >
+                <div className="flex items-center gap-3 flex-1 min-w-0">
+                  <span
+                    className={`select-none text-base font-medium transition-all duration-200 truncate ${todo.completed ? "line-through text-neutral-500" : "text-white"}`}
+                  >
+                    {todo.text}
+                  </span>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => removeTodo(todo.id)}
+                  aria-label="Delete todo"
+                  className="hover:bg-neutral-800 hover:text-white/70"
+                >
+                  <span className="text-lg">🗑️</span>
+                </Button>
+              </li>
             ))}
           </ul>
         </CardContent>
