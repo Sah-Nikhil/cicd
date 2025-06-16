@@ -22,7 +22,7 @@ export default function TodoItem({ todo, onToggle, onRemove }: TodoItemProps) {
           type="checkbox"
           checked={todo.completed}
           onChange={() => onToggle(todo.id)}
-          className="accent-gray-50 w-5 h-5 rounded border border-neutral-600 bg-neutral-900 focus:ring-2 focus:ring-white/40 transition"
+          className="accent-white w-5 h-5 rounded border border-neutral-600 bg-neutral-900 focus:ring-2 focus:ring-white/40 transition"
           aria-label={todo.completed ? 'Mark as incomplete' : 'Mark as complete'}
         />
         <span
