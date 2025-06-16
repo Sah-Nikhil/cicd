@@ -11,33 +11,19 @@ interface Todo {
   id: number;
   text: string;
   completed: boolean;
-  category?: string;
-  tags?: string[];
 }
 
 export default function TodoApp() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [input, setInput] = useState("");
-  const [category, setCategory] = useState("");
-  const [tags, setTags] = useState<string[]>([]);
-  const [tagInput, setTagInput] = useState("");
 
   const addTodo = () => {
     if (!input.trim()) return;
     setTodos([
       ...todos,
-      {
-        id: Date.now(),
-        text: input.trim(),
-        completed: false,
-        category,
-        tags,
-      },
+      { id: Date.now(), text: input.trim(), completed: false },
     ]);
     setInput("");
-    setCategory("");
-    setTags([]);
-    setTagInput("");
   };
 
   const removeTodo = (id: number) => {
@@ -71,47 +57,14 @@ export default function TodoApp() {
                 e.preventDefault();
                 addTodo();
               }}
-              className="flex flex-col gap-2 mb-6"
+              className="flex gap-2 mb-6"
             >
-              <div className="flex gap-2 mb-2">
-                <Input
-                  placeholder="Add a new todo..."
-                  value={input}
-                  onChange={e => setInput(e.target.value)}
-                  className="flex-1 bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:border-white focus:ring-2 focus:ring-neutral-600/40 rounded-md shadow-sm"
-                />
-                <Input
-                  placeholder="Category"
-                  value={category}
-                  onChange={e => setCategory(e.target.value)}
-                  className="w-32 bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:border-white focus:ring-2 focus:ring-neutral-600/40 rounded-md shadow-sm"
-                />
-              </div>
-              <div className="flex gap-2 mb-2">
-                <Input
-                  placeholder="Add tag"
-                  value={tagInput}
-                  onChange={e => setTagInput(e.target.value)}
-                  onKeyDown={e => {
-                    if (e.key === "Enter" && tagInput.trim()) {
-                      e.preventDefault();
-                      if (!tags.includes(tagInput.trim())) setTags([...tags, tagInput.trim()]);
-                      setTagInput("");
-                    }
-                  }}
-                  className="flex-1 bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:border-white focus:ring-2 focus:ring-neutral-600/40 rounded-md shadow-sm"
-                />
-                {tags.length > 0 && (
-                  <div className="flex flex-wrap gap-1 items-center">
-                    {tags.map(tag => (
-                      <span key={tag} className="px-2 py-1 bg-primary text-white rounded text-xs flex items-center gap-1">
-                        {tag}
-                        <button type="button" onClick={() => setTags(tags.filter(t => t !== tag))} className="ml-1 text-xs">×</button>
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <Input
+                placeholder="Add a new todo..."
+                value={input}
+                onChange={e => setInput(e.target.value)}
+                className="flex-1 bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:border-white focus:ring-2 focus:ring-neutral-600/40 rounded-md shadow-sm"
+              />
               <Button type="submit" className="bg-white text-black font-semibold rounded-md shadow hover:bg-neutral-200 transition">SLAP THAT my G</Button>
             </form>
             <ul className="flex flex-col gap-2">
@@ -144,16 +97,6 @@ export default function TodoApp() {
                           {todo.text}
                         </span>
                       </Link>
-                      {todo.category && (
-                        <span className="ml-2 px-2 py-1 bg-blue-700 text-white rounded text-xs">{todo.category}</span>
-                      )}
-                      {todo.tags && todo.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-1 ml-2">
-                          {todo.tags.map(tag => (
-                            <span key={tag} className="px-2 py-1 bg-primary text-white rounded text-xs">{tag}</span>
-                          ))}
-                        </div>
-                      )}
                     </div>
                     <Button
                       variant="ghost"
