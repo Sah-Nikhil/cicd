@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Todo {
   id: number;
@@ -53,23 +54,29 @@ export default function TodoApp() {
             {todos.length === 0 && (
               <li className="text-neutral-600 text-center italic">No todos yet. Add your first one!</li>
             )}
-            {todos.map(todo => (
-              <li
-                key={todo.id}
-                className="flex items-center justify-between rounded-lg px-3 py-2 transition-all duration-200 border border-neutral-800 bg-neutral-900/80 shadow-sm"
-              >
-                <span className="select-none text-base font-medium text-white truncate">{todo.text}</span>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => removeTodo(todo.id)}
-                  aria-label="Delete todo"
-                  className="hover:bg-neutral-800 hover:text-white/70"
+            <AnimatePresence>
+              {todos.map(todo => (
+                <motion.li
+                  key={todo.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex items-center justify-between rounded-lg px-3 py-2 transition-all duration-200 border border-neutral-800 bg-neutral-900/80 shadow-sm"
                 >
-                  <span className="text-lg">🗑️</span>
-                </Button>
-              </li>
-            ))}
+                  <span className="select-none text-base font-medium text-white truncate">{todo.text}</span>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => removeTodo(todo.id)}
+                    aria-label="Delete todo"
+                    className="hover:bg-neutral-800 hover:text-white/70"
+                  >
+                    <span className="text-lg">🗑️</span>
+                  </Button>
+                </motion.li>
+              ))}
+            </AnimatePresence>
           </ul>
         </CardContent>
       </Card>
