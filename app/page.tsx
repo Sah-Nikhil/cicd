@@ -1,50 +1,78 @@
-import Image from "next/image";
+"use client";
+import { useState } from "react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
-export default function Home() {
+interface Todo {
+  id: number;
+  text: string;
+}
+
+export default function TodoApp() {
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [input, setInput] = useState("");
+
+  const addTodo = () => {
+    if (!input.trim()) return;
+    setTodos([
+      ...todos,
+      { id: Date.now(), text: input.trim() },
+    ]);
+    setInput("");
+  };
+
+  const removeTodo = (id: number) => {
+    setTodos(todos.filter(todo => todo.id !== id));
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="min-h-screen flex flex-col items-center justify-center bg-neutral-950 p-4">
+      <Card className="w-full max-w-md shadow-2xl border border-neutral-800 bg-neutral-900/95 backdrop-blur-lg">
+        <CardHeader className="flex flex-col items-center gap-2 pb-2">
+          <CardTitle className="text-3xl font-extrabold text-white tracking-tight">Todo App</CardTitle>
+          <span className="text-xs text-neutral-400 uppercase tracking-widest">Minimal. Modern. Dark.</span>
+        </CardHeader>
+        <CardContent>
+          <form
+            onSubmit={e => {
+              e.preventDefault();
+              addTodo();
+            }}
+            className="flex gap-2 mb-6"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+            <Input
+              placeholder="Add a new todo..."
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              className="flex-1 bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:border-white focus:ring-2 focus:ring-neutral-600/40 rounded-md shadow-sm"
             />
-            Deploy now
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-      </footer>
+            <Button type="submit" className="bg-white text-black font-semibold rounded-md shadow hover:bg-neutral-200 transition">Add</Button>
+          </form>
+          <ul className="flex flex-col gap-2">
+            {todos.length === 0 && (
+              <li className="text-neutral-600 text-center italic">No todos yet. Add your first one!</li>
+            )}
+            {todos.map(todo => (
+              <li
+                key={todo.id}
+                className="flex items-center justify-between rounded-lg px-3 py-2 transition-all duration-200 border border-neutral-800 bg-neutral-900/80 shadow-sm"
+              >
+                <span className="select-none text-base font-medium text-white truncate">{todo.text}</span>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => removeTodo(todo.id)}
+                  aria-label="Delete todo"
+                  className="hover:bg-neutral-800 hover:text-white/70"
+                >
+                  <span className="text-lg">🗑️</span>
+                </Button>
+              </li>
+            ))}
+          </ul>
+        </CardContent>
+      </Card>
     </div>
   );
 }
