@@ -11,19 +11,31 @@ interface Todo {
   id: number;
   text: string;
   completed: boolean;
+  tags: string[];
+  category: string;
 }
 
 export default function TodoApp() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [input, setInput] = useState("");
+  const [tags, setTags] = useState("");
+  const [category, setCategory] = useState("");
 
   const addTodo = () => {
     if (!input.trim()) return;
     setTodos([
       ...todos,
-      { id: Date.now(), text: input.trim(), completed: false },
+      {
+        id: Date.now(),
+        text: input.trim(),
+        completed: false,
+        tags: tags.split(",").map(t => t.trim()).filter(Boolean),
+        category: category.trim(),
+      },
     ]);
     setInput("");
+    setTags("");
+    setCategory("");
   };
 
   const removeTodo = (id: number) => {
@@ -57,15 +69,31 @@ export default function TodoApp() {
                 e.preventDefault();
                 addTodo();
               }}
-              className="flex gap-2 mb-6"
+              className="flex flex-col gap-2 mb-6"
             >
-              <Input
-                placeholder="Add a new todo..."
-                value={input}
-                onChange={e => setInput(e.target.value)}
-                className="flex-1 bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:border-white focus:ring-2 focus:ring-neutral-600/40 rounded-md shadow-sm"
-              />
-              <Button type="submit" className="bg-white text-black font-semibold rounded-md shadow hover:bg-neutral-200 transition">SLAP THAT my G</Button>
+              <div className="flex gap-2">
+                <Input
+                  placeholder="Add a new todo..."
+                  value={input}
+                  onChange={e => setInput(e.target.value)}
+                  className="flex-1 bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:border-white focus:ring-2 focus:ring-neutral-600/40 rounded-md shadow-sm"
+                />
+                <Button type="submit" className="bg-white text-black font-semibold rounded-md shadow hover:bg-neutral-200 transition">Add</Button>
+              </div>
+              <div className="flex gap-2">
+                <Input
+                  placeholder="Tags (comma separated)"
+                  value={tags}
+                  onChange={e => setTags(e.target.value)}
+                  className="flex-1 bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:border-white focus:ring-2 focus:ring-neutral-600/40 rounded-md shadow-sm"
+                />
+                <Input
+                  placeholder="Category"
+                  value={category}
+                  onChange={e => setCategory(e.target.value)}
+                  className="flex-1 bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:border-white focus:ring-2 focus:ring-neutral-600/40 rounded-md shadow-sm"
+                />
+              </div>
             </form>
             <ul className="flex flex-col gap-2">
               <AnimatePresence>
@@ -97,6 +125,16 @@ export default function TodoApp() {
                           {todo.text}
                         </span>
                       </Link>
+                      {todo.category && (
+                        <span className="ml-2 px-2 py-0.5 rounded bg-blue-700/60 text-xs text-white font-semibold">{todo.category}</span>
+                      )}
+                      {todo.tags.length > 0 && (
+                        <span className="ml-2 flex flex-wrap gap-1">
+                          {todo.tags.map((tag, i) => (
+                            <span key={i} className="px-2 py-0.5 rounded bg-green-700/60 text-xs text-white font-semibold">{tag}</span>
+                          ))}
+                        </span>
+                      )}
                     </div>
                     <Button
                       variant="ghost"
