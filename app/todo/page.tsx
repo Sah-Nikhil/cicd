@@ -11,19 +11,31 @@ interface Todo {
   id: number;
   text: string;
   completed: boolean;
+  tags?: string[];
+  category?: string;
 }
 
 export default function TodoApp() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [input, setInput] = useState("");
+  const [tagsInput, setTagsInput] = useState("");
+  const [category, setCategory] = useState("");
 
   const addTodo = () => {
     if (!input.trim()) return;
     setTodos([
       ...todos,
-      { id: Date.now(), text: input.trim(), completed: false },
+      {
+        id: Date.now(),
+        text: input.trim(),
+        completed: false,
+        tags: tagsInput.split(",").map(t => t.trim()).filter(Boolean),
+        category: category.trim() || undefined,
+      },
     ]);
     setInput("");
+    setTagsInput("");
+    setCategory("");
   };
 
   const removeTodo = (id: number) => {
@@ -57,12 +69,24 @@ export default function TodoApp() {
                 e.preventDefault();
                 addTodo();
               }}
-              className="flex gap-2 mb-6"
+              className="flex flex-col gap-2 mb-6"
             >
               <Input
                 placeholder="Add a new todo..."
                 value={input}
                 onChange={e => setInput(e.target.value)}
+                className="flex-1 bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:border-white focus:ring-2 focus:ring-neutral-600/40 rounded-md shadow-sm"
+              />
+              <Input
+                placeholder="Tags (comma separated)"
+                value={tagsInput}
+                onChange={e => setTagsInput(e.target.value)}
+                className="flex-1 bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:border-white focus:ring-2 focus:ring-neutral-600/40 rounded-md shadow-sm"
+              />
+              <Input
+                placeholder="Category"
+                value={category}
+                onChange={e => setCategory(e.target.value)}
                 className="flex-1 bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:border-white focus:ring-2 focus:ring-neutral-600/40 rounded-md shadow-sm"
               />
               <Button type="submit" className="bg-white text-black font-semibold rounded-md shadow hover:bg-neutral-200 transition">SLAP THAT my G</Button>
@@ -89,7 +113,7 @@ export default function TodoApp() {
                     transition={{ type: "spring", stiffness: 200, damping: 20 }}
                     className={`flex items-center justify-between rounded-lg px-3 py-2 transition-all duration-200 border border-neutral-800 ${todo.completed ? 'bg-neutral-800/80' : 'bg-neutral-900/80 hover:bg-neutral-800/90'} shadow-sm`}
                   >
-                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                    <div className="flex flex-col flex-1 min-w-0 gap-1">
                       <Link href={`/todo/${todo.id}`} className="flex-1 min-w-0">
                         <span
                           className={`select-none text-base font-medium transition-all duration-200 truncate ${todo.completed ? "line-through text-neutral-500" : "text-white"}`}
@@ -97,6 +121,16 @@ export default function TodoApp() {
                           {todo.text}
                         </span>
                       </Link>
+                      {todo.category && (
+                        <span className="text-xs text-primary font-semibold bg-primary/10 rounded px-2 py-0.5 w-fit mt-1">{todo.category}</span>
+                      )}
+                      {todo.tags && todo.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-1 mt-1">
+                          {todo.tags.map(tag => (
+                            <span key={tag} className="text-xs bg-neutral-700 text-white rounded px-2 py-0.5">{tag}</span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                     <Button
                       variant="ghost"
