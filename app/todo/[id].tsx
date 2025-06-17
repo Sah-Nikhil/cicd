@@ -48,7 +48,7 @@ export default function TodoDetailPage() {
     router.push("/todo");
   };
 
-  if (!todo) return <div className="text-white p-10">Todo not found.</div>;
+  if (!todo) return <div className="text-white p-8">Todo not found.</div>;
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-neutral-950 p-4">
