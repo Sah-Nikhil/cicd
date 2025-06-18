@@ -74,7 +74,7 @@ export default function TodoApp() {
   const colorMap: Record<string, string> = {
     blue: 'bg-blue-500',
     green: 'bg-green-500',
-    yellow: 'bg-yellow-400',
+    yellow: 'bg-orange-500', // changed from yellow-400 to orange-500 for a darker, orange shade
     red: 'bg-red-500',
   };
 
