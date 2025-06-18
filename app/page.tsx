@@ -13,18 +13,36 @@ interface Todo {
 export default function TodoApp() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [input, setInput] = useState("");
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editText, setEditText] = useState("");
 
   const addTodo = () => {
     if (!input.trim()) return;
     setTodos([
       ...todos,
       { id: Date.now(), text: input.trim() },
-    ]);
+    ]); 
     setInput("");
   };
 
   const removeTodo = (id: number) => {
     setTodos(todos.filter(todo => todo.id !== id));
+  };
+
+  const startEdit = (id: number, text: string) => {
+    setEditingId(id);
+    setEditText(text);
+  };
+
+  const saveEdit = (id: number) => {
+    setTodos(todos.map(todo => todo.id === id ? { ...todo, text: editText } : todo));
+    setEditingId(null);
+    setEditText("");
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditText("");
   };
 
   return (
@@ -72,16 +90,41 @@ export default function TodoApp() {
                   transition={{ duration: 0.2 }}
                   className="flex items-center justify-between rounded-lg px-3 py-2 transition-all duration-200 border border-neutral-800 bg-neutral-900/80 shadow-sm"
                 >
-                  <span className="select-none text-base font-medium text-white truncate">{todo.text}</span>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => removeTodo(todo.id)}
-                    aria-label="Delete todo"
-                    className="hover:bg-neutral-800 hover:text-white/70"
-                  >
-                    <span className="text-lg">🗑️</span>
-                  </Button>
+                  {editingId === todo.id ? (
+                    <div className="flex flex-1 items-center gap-2">
+                      <Input
+                        value={editText}
+                        onChange={e => setEditText(e.target.value)}
+                        className="flex-1 bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:border-white focus:ring-2 focus:ring-neutral-600/40 rounded-md shadow-sm"
+                      />
+                      <Button size="sm" className="bg-green-500 text-white" onClick={() => saveEdit(todo.id)}>Save</Button>
+                      <Button size="sm" variant="ghost" onClick={cancelEdit}>Cancel</Button>
+                    </div>
+                  ) : (
+                    <>
+                      <span className="select-none text-base font-medium text-white truncate">{todo.text}</span>
+                      <div className="flex gap-1">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => startEdit(todo.id, todo.text)}
+                          aria-label="Edit todo"
+                          className="hover:bg-neutral-800 hover:text-white/70"
+                        >
+                          <span className="text-lg">✏️</span>
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => removeTodo(todo.id)}
+                          aria-label="Delete todo"
+                          className="hover:bg-neutral-800 hover:text-white/70"
+                        >
+                          <span className="text-lg">🗑️</span>
+                        </Button>
+                      </div>
+                    </>
+                  )}
                 </motion.li>
               ))}
             </AnimatePresence>
