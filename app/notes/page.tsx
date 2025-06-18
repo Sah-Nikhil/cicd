@@ -16,7 +16,7 @@ export default function NotesPage() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-neutral-950 p-4">
-      <Card className="w-full max-w-md shadow-2xl border border-neutral-800 bg-neutral-900/95 backdrop-blur-lg">
+      <Card className="w-full max-w-md shadow-2xl border border-neutral-700 bg-neutral-900/95 backdrop-blur-lg">
         <CardHeader className="flex flex-col items-center gap-2 pb-2">
           <CardTitle className="text-3xl font-extrabold text-white tracking-tight">Notes</CardTitle>
           <span className="text-xs text-neutral-400 uppercase tracking-widest">Jot down your thoughts</span>
