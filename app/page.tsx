@@ -10,54 +10,6 @@ interface Todo {
   text: string;
 }
 
-function TodoItem({ todo, onUpdate }: { todo: Todo; onUpdate: (todo: Todo) => void }) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [editText, setEditText] = useState(todo.text);
-
-  const handleUpdate = () => {
-    if (!editText.trim()) return;
-    onUpdate({ ...todo, text: editText.trim() });
-    setIsEditing(false);
-  };
-
-  return (
-    <div className="flex items-center justify-between w-full">
-      {isEditing ? (
-        <Input
-          value={editText}
-          onChange={e => setEditText(e.target.value)}
-          className="bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:border-white focus:ring-2 focus:ring-neutral-600/40 rounded-md shadow-sm"
-          onKeyDown={e => {
-            if (e.key === "Enter") handleUpdate();
-          }}
-        />
-      ) : (
-        <span className="select-none text-base font-medium text-white truncate">{todo.text}</span>
-      )}
-      <div className="flex gap-2">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setIsEditing(prev => !prev)}
-          aria-label={isEditing ? "Cancel editing" : "Edit todo"}
-          className="hover:bg-neutral-800 hover:text-white/70"
-        >
-          {isEditing ? "💾" : "✏️"}
-        </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => removeTodo(todo.id)}
-          aria-label="Delete todo"
-          className="hover:bg-neutral-800 hover:text-white/70"
-        >
-          <span className="text-lg">🗑️</span>
-        </Button>
-      </div>
-    </div>
-  );
-}
-
 export default function TodoApp() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [input, setInput] = useState("");
@@ -73,10 +25,6 @@ export default function TodoApp() {
 
   const removeTodo = (id: number) => {
     setTodos(todos.filter(todo => todo.id !== id));
-  };
-
-  const updateTodo = (updatedTodo: Todo) => {
-    setTodos(todos.map(todo => todo.id === updatedTodo.id ? updatedTodo : todo));
   };
 
   return (
@@ -124,7 +72,16 @@ export default function TodoApp() {
                   transition={{ duration: 0.2 }}
                   className="flex items-center justify-between rounded-lg px-3 py-2 transition-all duration-200 border border-neutral-800 bg-neutral-900/80 shadow-sm"
                 >
-                  <TodoItem todo={todo} onUpdate={updateTodo} />
+                  <span className="select-none text-base font-medium text-white truncate">{todo.text}</span>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => removeTodo(todo.id)}
+                    aria-label="Delete todo"
+                    className="hover:bg-neutral-800 hover:text-white/70"
+                  >
+                    <span className="text-lg">🗑️</span>
+                  </Button>
                 </motion.li>
               ))}
             </AnimatePresence>
