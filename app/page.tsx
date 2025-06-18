@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 interface Todo {
   id: number;
   text: string;
-  color: 'blue' | 'green' | 'yellow' | 'red';
+  color?: 'blue' | 'green' | 'yellow' | 'red';
   deadline?: string; // ISO date string
 }
 
@@ -20,8 +20,8 @@ export default function TodoApp() {
   const [editText, setEditText] = useState("");
   const [editDeadline, setEditDeadline] = useState("");
 
-  function getUrgencyColor(dateStr: string | undefined): 'blue' | 'green' | 'yellow' | 'red' {
-    if (!dateStr) return 'blue';
+  function getUrgencyColor(dateStr: string | undefined): 'blue' | 'green' | 'yellow' | 'red' | undefined {
+    if (!dateStr) return undefined;
     const today = new Date();
     const deadline = new Date(dateStr);
     // Set both to midnight for accurate day diff
@@ -33,7 +33,7 @@ export default function TodoApp() {
     if (diffDays === 0) return 'red'; // Deadline today
     if (diffDays <= 3) return 'yellow'; // Deadline in 3 days
     if (diffDays <= 7) return 'green'; // Deadline in a week
-    return 'blue'; // No deadline or far in future
+    return undefined; // No color for other cases
   }
 
   const addTodo = () => {
@@ -130,7 +130,11 @@ export default function TodoApp() {
                   transition={{ duration: 0.2 }}
                   className={`flex items-center justify-between rounded-lg px-3 py-2 transition-all duration-200 border border-neutral-800 bg-neutral-900/80 shadow-sm`}
                 >
-                  <span className={`w-3 h-3 rounded-full mr-3 ${colorMap[todo.color]}`}></span>
+                  {todo.color ? (
+                    <span className={`w-3 h-3 rounded-full mr-3 ${colorMap[todo.color]}`}></span>
+                  ) : (
+                    <span className="w-3 h-3 rounded-full mr-3"></span>
+                  )}
                   {editingId === todo.id ? (
                     <div className="flex flex-1 items-center gap-2">
                       <Input
