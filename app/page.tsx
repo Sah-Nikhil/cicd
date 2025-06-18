@@ -14,7 +14,7 @@ export default function TodoApp() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [input, setInput] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
-  const [editText, setEditText] = useState(""
+  const [editText, setEditText] = useState("");
 
   const addTodo = () => {
     if (!input.trim()) return;
