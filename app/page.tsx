@@ -86,6 +86,13 @@ export default function TodoApp() {
           <span className="text-xs text-neutral-400 uppercase tracking-widest">Minimal. Modern. Dark.</span>
         </CardHeader>
         <CardContent>
+          <Button
+            type="button"
+            className="bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 transition mb-4"
+            onClick={() => window.location.href = "/notes"}
+          >
+            Go to Notes
+          </Button>
           <form
             onSubmit={e => {
               e.preventDefault();
