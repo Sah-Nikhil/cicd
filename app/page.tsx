@@ -89,7 +89,7 @@ export default function TodoApp() {
           <Button
             type="button"
             className="bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 transition mb-4"
-            onClick={() => window.location.href = "/notes"}
+            onClick={() => window.location.href = '/notes'}
           >
             Go to Notes
           </Button>
