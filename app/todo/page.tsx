@@ -36,7 +36,7 @@ export default function TodoApp() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 40 }}
       transition={{ type: "spring", stiffness: 120, damping: 18 }}
-      className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground p-4 transition-colors duration-300"
+      className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground p-8 transition-colors duration-300"
     >
       <div className="absolute top-4 right-4 z-40">
         {/* ThemeToggle is now only in layout */}
