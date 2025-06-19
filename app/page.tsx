@@ -79,8 +79,8 @@ export default function TodoApp() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-neutral-950 p-4">
-      <Card className="w-full max-w-md shadow-2xl border border-neutral-800 bg-neutral-900/95 backdrop-blur-lg">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground p-4 transition-colors duration-300">
+      <Card className="w-full max-w-md shadow-2xl border border-neutral-800 bg-card/95 backdrop-blur-lg">
         <CardHeader className="flex flex-col items-center gap-2 pb-2">
           <CardTitle className="text-3xl font-extrabold text-white tracking-tight">Todo App</CardTitle>
           <span className="text-xs text-neutral-400 uppercase tracking-widest">Minimal. Modern. Dark.</span>
