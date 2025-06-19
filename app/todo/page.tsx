@@ -36,17 +36,17 @@ export default function TodoApp() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 40 }}
       transition={{ type: "spring", stiffness: 120, damping: 18 }}
-      className="min-h-screen flex flex-col items-center justify-center bg-neutral-950 p-4"
+      className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground p-8 transition-colors duration-300"
     >
-      <div className="absolute top-4 right-4">
-        <ThemeToggle />
+      <div className="absolute top-4 right-4 z-40">
+        {/* ThemeToggle is now only in layout */}
       </div>
       <motion.div
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ type: "spring", stiffness: 180, damping: 18, delay: 0.1 }}
       >
-        <Card className="w-full max-w-md shadow-2xl border border-neutral-800 bg-neutral-900/95 backdrop-blur-lg">
+        <Card className="w-full max-w-md shadow-2xl border border-neutral-800 bg-card/95 backdrop-blur-lg">
           <CardHeader className="flex flex-col items-center gap-2 pb-2">
             <CardTitle className="text-3xl font-extrabold text-white tracking-tight">Todo App by </CardTitle>
             <span className="text-xs text-neutral-400 uppercase tracking-widest">Minimal. Modern.</span>
